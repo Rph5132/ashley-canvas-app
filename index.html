@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Reset Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== GLOBAL RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pink-light: #F9F0F0;
+      --pink-medium: #F0D5D5;
+      --pink-accent: #E8C4C4;
+      --pink-dark: #D4A5A5;
+      --gray-line: #D3D3D3;
+      --gray-text: #B0B0B0;
+      --gray-dark: #6B6B6B;
+      --text-dark: #3A3A3A;
+      --text-medium: #5A5A5A;
+      --white: #FFFFFF;
+      --line-color: #E8D5D5;
+      --page-width: 8.5in;
+      --page-height: 11in;
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      color: var(--text-dark);
+      background: #EAEAEA;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    /* ===== PAGE STRUCTURE ===== */
+    .page {
+      width: var(--page-width);
+      height: var(--page-height);
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      padding: 0.5in 0.6in 0.7in 0.6in;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== FOOTER ===== */
+    .page-footer {
+      position: absolute;
+      bottom: 0.3in;
+      left: 0.6in;
+      right: 0.6in;
+      border-top: 0.5pt solid var(--gray-line);
+      padding-top: 4px;
+      text-align: center;
+    }
+
+    .page-footer span {
+      font-family: 'Lato', sans-serif;
+      font-size: 7pt;
+      color: var(--gray-text);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ===== COMMON TYPOGRAPHY ===== */
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22pt;
+      font-weight: 700;
+      color: var(--text-dark);
+      text-align: center;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .page-subtitle {
+      font-family: 'Dancing Script', cursive;
+      font-size: 13pt;
+      color: var(--gray-dark);
+      text-align: center;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    .section-header {
+      font-family: 'Playfair Display', serif;
+      font-size: 10pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .thin-divider {
+      width: 60px;
+      height: 0;
+      border: none;
+      border-top: 0.5pt solid var(--pink-accent);
+      margin: 0 auto 12px auto;
+    }
+
+    /* ===== FAINT WRITING LINES ===== */
+    .writing-lines {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 0;
+    }
+
+    .writing-line {
+      border-bottom: 0.5pt solid var(--line-color);
+      height: 22px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .writing-line-gray {
+      border-bottom: 0.5pt solid var(--gray-line);
+      height: 22px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .writing-line-dotted {
+      border-bottom: 0.5pt dotted var(--line-color);
+      height: 22px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    /* ===== CHECKBOX LINE ===== */
+    .checkbox-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 26px;
+    }
+
+    .checkbox-line .cb {
+      width: 13px;
+      height: 13px;
+      border: 1pt solid var(--gray-line);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .checkbox-line .cb-large {
+      width: 15px;
+      height: 15px;
+      border: 1pt solid var(--gray-line);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .checkbox-line .dotted-fill {
+      flex: 1;
+      border-bottom: 0.5pt dotted var(--line-color);
+      height: 100%;
+    }
+
+    .checkbox-line .label-text {
+      font-size: 9pt;
+      color: var(--text-medium);
+      white-space: nowrap;
+    }
+
+    /* ===== PINK-FILL BOX STYLE ===== */
+    .pink-box {
+      background: var(--pink-light);
+      border-radius: 4px;
+      padding: 8px 10px;
+      border: 0.5pt solid var(--line-color);
+    }
+
+    .pink-box-header {
+      font-family: 'Playfair Display', serif;
+      font-size: 8.5pt;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    /* ===== AFFIRMATION ===== */
+    .affirmation {
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 11pt;
+      color: var(--gray-dark);
+      font-style: italic;
+      padding: 8px 0;
+    }
+
+    /* ===== PRINT STYLES ===== */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+        gap: 0;
+      }
+
+      .page {
+        box-shadow: none;
+        margin: 0;
+        page-break-after: always;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    /* ===== SCREEN SHADOW ===== */
+    @media screen {
+      .page {
+        box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        border-radius: 2px;
+      }
+    }
+
+    /* ===================================================
+       PAGE 1: COVER
+       =================================================== */
+    .cover-page {
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .cover-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        #FDF6F6 0%,
+        #F5E1E1 20%,
+        #F9EDED 40%,
+        #FBF0EE 60%,
+        #F2D9D9 80%,
+        #F7E5E5 100%
+      );
+      z-index: 0;
+    }
+
+    .cover-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(232, 196, 196, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(244, 220, 220, 0.3) 0%, transparent 40%),
+        radial-gradient(ellipse at 60% 70%, rgba(212, 165, 165, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 30% 80%, rgba(240, 213, 213, 0.35) 0%, transparent 45%);
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 0 1in;
+    }
+
+    .cover-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36pt;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .cover-content h1 span {
+      display: block;
+      font-size: 14pt;
+      letter-spacing: 8px;
+      font-weight: 400;
+      color: var(--text-medium);
+      margin-top: 4px;
+    }
+
+    .cover-line {
+      width: 80px;
+      height: 0;
+      border: none;
+      border-top: 0.5pt solid var(--pink-dark);
+      margin: 18px auto;
+    }
+
+    .cover-year {
+      font-family: 'Lato', sans-serif;
+      font-size: 14pt;
+      font-weight: 300;
+      letter-spacing: 6px;
+      color: var(--gray-dark);
+    }
+
+    /* ===================================================
+       PAGE 2: WEEKLY OVERVIEW
+       =================================================== */
+    .weekly-overview .day-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .weekly-overview .day-row {
+      display: flex;
+      gap: 0;
+      background: var(--pink-light);
+      border-radius: 3px;
+      border: 0.5pt solid var(--line-color);
+      min-height: 52px;
+    }
+
+    .weekly-overview .day-label {
+      width: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 8.5pt;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      background: var(--pink-medium);
+      border-radius: 3px 0 0 3px;
+      border-right: 0.5pt solid var(--line-color);
+      flex-shrink: 0;
+    }
+
+    .weekly-overview .day-content {
+      flex: 1;
+      padding: 4px 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .weekly-overview .day-content .writing-line-dotted {
+      height: 15px;
+    }
+
+    .weekly-overview .date-field {
+      text-align: center;
+      margin-bottom: 10px;
+      font-family: 'Lato', sans-serif;
+      font-size: 9pt;
+      color: var(--text-medium);
+    }
+
+    .weekly-overview .date-field span {
+      border-bottom: 0.5pt solid var(--gray-line);
+      padding: 0 60px 2px 60px;
+    }
+
+    .weekly-overview .sidebar-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+    }
+
+    .weekly-overview .sidebar-box {
+      background: var(--pink-light);
+      border: 0.5pt solid var(--line-color);
+      border-radius: 3px;
+      padding: 6px 8px;
+    }
+
+    .weekly-overview .sidebar-box .pink-box-header {
+      font-size: 7.5pt;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .weekly-overview .sidebar-box .writing-line-dotted {
+      height: 16px;
+    }
+
+    /* ===================================================
+       PAGE 3: NON-NEGOTIABLES
+       =================================================== */
+    .nonneg-section {
+      margin-bottom: 12px;
+    }
+
+    .nonneg-section-header {
+      background: var(--pink-medium);
+      border-radius: 4px 4px 0 0;
+      padding: 6px 12px;
+      font-family: 'Playfair Display', serif;
+      font-size: 9pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      border: 0.5pt solid var(--line-color);
+      border-bottom: none;
+    }
+
+    .nonneg-section-body {
+      background: var(--pink-light);
+      border-radius: 0 0 4px 4px;
+      padding: 8px 12px;
+      border: 0.5pt solid var(--line-color);
+      border-top: none;
+    }
+
+    .nonneg-section-body .checkbox-line {
+      height: 30px;
+    }
+
+    /* ===================================================
+       PAGE 4: TO-DO LIST
+       =================================================== */
+    .todo-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .todo-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .todo-column-header {
+      background: var(--pink-medium);
+      border-radius: 4px 4px 0 0;
+      padding: 8px 12px;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 9pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      border: 0.5pt solid var(--line-color);
+      border-bottom: none;
+    }
+
+    .todo-column-body {
+      background: var(--pink-light);
+      border-radius: 0 0 4px 4px;
+      padding: 8px 12px;
+      border: 0.5pt solid var(--line-color);
+      border-top: none;
+      flex: 1;
+    }
+
+    .todo-column-body .checkbox-line {
+      height: 28px;
+    }
+
+    /* ===================================================
+       PAGE 5: MEAL PLANNING
+       =================================================== */
+    .meal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .meal-day {
+      border: 0.5pt solid var(--line-color);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .meal-day-header {
+      background: var(--pink-medium);
+      text-align: center;
+      padding: 4px 2px;
+      font-family: 'Playfair Display', serif;
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      border-bottom: 0.5pt solid var(--line-color);
+    }
+
+    .meal-day-body {
+      background: var(--pink-light);
+      padding: 2px 4px;
+    }
+
+    .meal-slot {
+      border-bottom: 0.5pt dotted var(--line-color);
+      padding: 2px 0;
+    }
+
+    .meal-slot:last-child {
+      border-bottom: none;
+    }
+
+    .meal-slot-label {
+      font-size: 6.5pt;
+      font-weight: 700;
+      color: var(--pink-dark);
+      letter-spacing: 0.5px;
+    }
+
+    .meal-slot .writing-line-dotted {
+      height: 14px;
+    }
+
+    .meal-bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+    }
+
+    .meal-bottom-box {
+      background: var(--pink-light);
+      border: 0.5pt solid var(--line-color);
+      border-radius: 3px;
+      padding: 6px 8px;
+    }
+
+    .meal-bottom-box .pink-box-header {
+      font-size: 7.5pt;
+      text-align: center;
+      margin-bottom: 3px;
+    }
+
+    .meal-numbered-line {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 18px;
+    }
+
+    .meal-numbered-line .num {
+      font-size: 7pt;
+      color: var(--gray-text);
+      width: 12px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .meal-numbered-line .dotted-fill {
+      flex: 1;
+      border-bottom: 0.5pt dotted var(--line-color);
+      height: 100%;
+    }
+
+    /* ===================================================
+       PAGE 6: HOME RESET CHECKLIST
+       =================================================== */
+    .home-reset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 16px;
+      flex: 1;
+    }
+
+    .home-reset-section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .home-reset-section-header {
+      background: var(--pink-medium);
+      border-radius: 4px 4px 0 0;
+      padding: 5px 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      border: 0.5pt solid var(--line-color);
+      border-bottom: none;
+    }
+
+    .home-reset-section-body {
+      background: var(--pink-light);
+      border-radius: 0 0 4px 4px;
+      padding: 6px 10px;
+      border: 0.5pt solid var(--line-color);
+      border-top: none;
+      flex: 1;
+    }
+
+    .home-reset-section-body .checkbox-line {
+      height: 24px;
+    }
+
+    /* Full-width section for Life Admin at the bottom */
+    .home-reset-full {
+      grid-column: 1 / -1;
+    }
+
+    /* ===================================================
+       PAGE 7: HABIT TRACKER
+       =================================================== */
+    .habit-tracker-table {
+      width: 100%;
+      border-collapse: collapse;
+      flex: 1;
+    }
+
+    .habit-tracker-table th {
+      font-family: 'Playfair Display', serif;
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      padding: 6px 4px;
+      text-align: center;
+      background: var(--pink-medium);
+      border: 0.5pt solid var(--line-color);
+    }
+
+    .habit-tracker-table th:first-child {
+      text-align: left;
+      width: 160px;
+      padding-left: 10px;
+    }
+
+    .habit-tracker-table td {
+      border: 0.5pt solid var(--line-color);
+      padding: 10px 4px;
+      text-align: center;
+      background: var(--pink-light);
+    }
+
+    .habit-tracker-table td:first-child {
+      text-align: left;
+      padding-left: 10px;
+      font-size: 9pt;
+      color: var(--text-medium);
+      border-bottom: 0.5pt dotted var(--line-color);
+    }
+
+    .habit-tracker-table .habit-circle {
+      width: 18px;
+      height: 18px;
+      border: 0.5pt solid var(--gray-line);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* ===================================================
+       PAGE 8: BRAIN DETOX
+       =================================================== */
+    .brain-detox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .brain-detox-quadrant {
+      background: var(--pink-light);
+      border: 0.5pt solid var(--line-color);
+      border-radius: 4px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brain-detox-quadrant .pink-box-header {
+      text-align: center;
+      margin-bottom: 2px;
+    }
+
+    .brain-detox-quadrant .quad-subtitle {
+      text-align: center;
+      font-size: 7.5pt;
+      color: var(--gray-dark);
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+
+    .brain-detox-quadrant .writing-lines {
+      flex: 1;
+    }
+
+    .brain-detox-quadrant .writing-line-dotted {
+      height: 26px;
+    }
+
+    /* ===================================================
+       PAGE 9: WEEKLY REFLECTION
+       =================================================== */
+    .reflection-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .reflection-quadrant {
+      background: var(--pink-light);
+      border: 0.5pt solid var(--line-color);
+      border-radius: 4px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .reflection-quadrant .pink-box-header {
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .reflection-quadrant .writing-lines {
+      flex: 1;
+    }
+
+    .reflection-quadrant .writing-line-dotted {
+      height: 28px;
+    }
+
+    /* ===================================================
+       PAGE 10: NOTES
+       =================================================== */
+    .notes-page .writing-lines {
+      flex: 1;
+    }
+
+    .notes-page .writing-line-gray {
+      height: 26px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================================================
+       PAGE 1: COVER
+       =================================================== -->
+  <div class="page cover-page">
+    <div class="cover-bg"></div>
+    <div class="cover-content">
+      <h1>
+        Weekly
+        Reset
+        <span>Planner</span>
+      </h1>
+      <hr class="cover-line">
+      <div class="cover-year">2 0 2 6</div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       PAGE 2: WEEKLY OVERVIEW
+       =================================================== -->
+  <div class="page weekly-overview">
+    <div class="page-content">
+      <h2 class="page-title">The Weekly Reset</h2>
+      <p class="page-subtitle">Plan it. Own it. Reset it.</p>
+      <hr class="thin-divider">
+
+      <div class="date-field">Week of <span>&nbsp;</span></div>
+
+      <div class="day-grid">
+        <div class="day-row">
+          <div class="day-label">Monday</div>
+          <div class="day-content">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Tuesday</div>
+          <div class="day-content">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Wednesday</div>
+          <div class="day-content">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Thursday</div>
+          <div class="day-content">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Friday</div>
+          <div class="day-content">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Saturday</div>
+          <div class="day-content">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Sunday</div>
+          <div class="day-content">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-grid">
+        <div class="sidebar-box">
+          <div class="pink-box-header">Events &amp; Appointments</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="sidebar-box">
+          <div class="pink-box-header">Notes</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="sidebar-box">
+          <div class="pink-box-header">Next Week Intentions</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer"><span>Weekly Reset Planner</span></div>
+  </div>
+
+  <!-- ===================================================
+       PAGE 3: NON-NEGOTIABLES
+       =================================================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2 class="page-title">This Week's Non-Negotiables</h2>
+      <p class="page-subtitle">The 3-thing rule: if nothing else gets done, these matter most.</p>
+      <hr class="thin-divider">
+
+      <div class="nonneg-section">
+        <div class="nonneg-section-header">Must-Do</div>
+        <div class="nonneg-section-body">
+          <div class="checkbox-line"><div class="cb-large"></div><div class="dotted-fill"></div></div>
+          <div class="checkbox-line"><div class="cb-large"></div><div class="dotted-fill"></div></div>
+          <div class="checkbox-line"><div class="cb-large"></div><div class="dotted-fill"></div></div>
+        </div>
+      </div>
+
+      <div class="nonneg-section">
+        <div class="nonneg-section-header">Nice-to-Do</div>
+        <div class="nonneg-section-body">
+          <div class="checkbox-line"><div class="cb-large"></div><div class="dotted-fill"></div></div>
+          <div class="checkbox-line"><div class="cb-large"></div><div class="dotted-fill"></div></div>
+          <div class="checkbox-line"><div class="cb-large"></div><div class="dotted-fill"></div></div>
+        </div>
+      </div>
+
+      <div class="nonneg-section">
+        <div class="nonneg-section-header">Can Wait</div>
+        <div class="nonneg-section-body">
+          <div class="checkbox-line"><div class="cb-large"></div><div class="dotted-fill"></div></div>
+          <div class="checkbox-line"><div class="cb-large"></div><div class="dotted-fill"></div></div>
+          <div class="checkbox-line"><div class="cb-large"></div><div class="dotted-fill"></div></div>
+        </div>
+      </div>
+
+      <div style="flex:1;"></div>
+
+      <div class="affirmation">
+        <div class="checkbox-line" style="justify-content: center;">
+          <div class="cb"></div>
+          <span class="label-text" style="font-family: 'Dancing Script', cursive; font-size: 11pt; color: var(--gray-dark);">
+            I gave myself grace this week.
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer"><span>Weekly Reset Planner</span></div>
+  </div>
+
+  <!-- ===================================================
+       PAGE 4: TO-DO LIST
+       =================================================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2 class="page-title">To-Do List</h2>
+      <p class="page-subtitle">Small steps still move you forward.</p>
+      <hr class="thin-divider">
+
+      <div class="todo-columns">
+        <div class="todo-column">
+          <div class="todo-column-header">Quick Wins</div>
+          <div class="todo-column-body">
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+          </div>
+        </div>
+        <div class="todo-column">
+          <div class="todo-column-header">Deep Focus</div>
+          <div class="todo-column-body">
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+            <div class="checkbox-line"><div class="cb"></div><div class="dotted-fill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 12px;"></div>
+
+      <div class="affirmation">
+        <div class="checkbox-line" style="justify-content: center;">
+          <div class="cb"></div>
+          <span class="label-text" style="font-family: 'Dancing Script', cursive; font-size: 11pt; color: var(--gray-dark);">
+            Done is better than perfect.
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer"><span>Weekly Reset Planner</span></div>
+  </div>
+
+  <!-- ===================================================
+       PAGE 5: MEAL PLANNING
+       =================================================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2 class="page-title">Low-Effort Meal Week</h2>
+      <p class="page-subtitle">Feed yourself well without the stress.</p>
+      <hr class="thin-divider">
+
+      <div class="meal-grid">
+        <div class="meal-day">
+          <div class="meal-day-header">Mon</div>
+          <div class="meal-day-body">
+            <div class="meal-slot">
+              <div class="meal-slot-label">B</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">L</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">D</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+          </div>
+        </div>
+        <div class="meal-day">
+          <div class="meal-day-header">Tue</div>
+          <div class="meal-day-body">
+            <div class="meal-slot">
+              <div class="meal-slot-label">B</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">L</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">D</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+          </div>
+        </div>
+        <div class="meal-day">
+          <div class="meal-day-header">Wed</div>
+          <div class="meal-day-body">
+            <div class="meal-slot">
+              <div class="meal-slot-label">B</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">L</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">D</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+          </div>
+        </div>
+        <div class="meal-day">
+          <div class="meal-day-header">Thu</div>
+          <div class="meal-day-body">
+            <div class="meal-slot">
+              <div class="meal-slot-label">B</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">L</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">D</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+          </div>
+        </div>
+        <div class="meal-day">
+          <div class="meal-day-header">Fri</div>
+          <div class="meal-day-body">
+            <div class="meal-slot">
+              <div class="meal-slot-label">B</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">L</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">D</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+          </div>
+        </div>
+        <div class="meal-day">
+          <div class="meal-day-header">Sat</div>
+          <div class="meal-day-body">
+            <div class="meal-slot">
+              <div class="meal-slot-label">B</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">L</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">D</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+          </div>
+        </div>
+        <div class="meal-day">
+          <div class="meal-day-header">Sun</div>
+          <div class="meal-day-body">
+            <div class="meal-slot">
+              <div class="meal-slot-label">B</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">L</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+            <div class="meal-slot">
+              <div class="meal-slot-label">D</div>
+              <div class="writing-line-dotted"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-bottom-grid">
+        <div class="meal-bottom-box">
+          <div class="pink-box-header">Grocery Essentials</div>
+          <div class="meal-numbered-line"><span class="num">1.</span><div class="dotted-fill"></div></div>
+          <div class="meal-numbered-line"><span class="num">2.</span><div class="dotted-fill"></div></div>
+          <div class="meal-numbered-line"><span class="num">3.</span><div class="dotted-fill"></div></div>
+          <div class="meal-numbered-line"><span class="num">4.</span><div class="dotted-fill"></div></div>
+          <div class="meal-numbered-line"><span class="num">5.</span><div class="dotted-fill"></div></div>
+          <div class="meal-numbered-line"><span class="num">6.</span><div class="dotted-fill"></div></div>
+          <div class="meal-numbered-line"><span class="num">7.</span><div class="dotted-fill"></div></div>
+          <div class="meal-numbered-line"><span class="num">8.</span><div class="dotted-fill"></div></div>
+          <div class="meal-numbered-line"><span class="num">9.</span><div class="dotted-fill"></div></div>
+          <div class="meal-numbered-line"><span class="num">10.</span><div class="dotted-fill"></div></div>
+        </div>
+        <div class="meal-bottom-box">
+          <div class="pink-box-header">Meal Prep Notes</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+          </div>
+        </div>
+        <div class="meal-bottom-box">
+          <div class="pink-box-header">Snack Ideas</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+            <div class="writing-line-dotted" style="height: 18px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer"><span>Weekly Reset Planner</span></div>
+  </div>
+
+  <!-- ===================================================
+       PAGE 6: HOME RESET CHECKLIST (NEW)
+       =================================================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2 class="page-title">Home Reset Checklist</h2>
+      <p class="page-subtitle">A clean space, a clear mind.</p>
+      <hr class="thin-divider">
+
+      <div class="home-reset-grid">
+        <div class="home-reset-section">
+          <div class="home-reset-section-header">Kitchen</div>
+          <div class="home-reset-section-body">
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Clear &amp; wipe counters</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Wash dishes / empty dishwasher</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Clean out fridge</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Prep meals or plan takeout</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Take out trash</span></div>
+          </div>
+        </div>
+
+        <div class="home-reset-section">
+          <div class="home-reset-section-header">Living Spaces</div>
+          <div class="home-reset-section-body">
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">10-minute tidy (each room)</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Fluff pillows &amp; fold blankets</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Wipe down surfaces</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Light a candle or diffuse oils</span></div>
+          </div>
+        </div>
+
+        <div class="home-reset-section">
+          <div class="home-reset-section-header">Bedroom</div>
+          <div class="home-reset-section-body">
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Change bed sheets</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Clear nightstand</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Put away clean laundry</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Set out tomorrow's outfit</span></div>
+          </div>
+        </div>
+
+        <div class="home-reset-section">
+          <div class="home-reset-section-header">Bathroom</div>
+          <div class="home-reset-section-body">
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Wipe mirrors &amp; counters</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Restock toiletries</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Wash towels</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Quick floor wipe</span></div>
+          </div>
+        </div>
+
+        <div class="home-reset-section home-reset-full">
+          <div class="home-reset-section-header">Life Admin</div>
+          <div class="home-reset-section-body">
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Check calendar for the week</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Reply to important messages</span></div>
+            <div class="checkbox-line"><div class="cb"></div><span class="label-text">Set one intention for the week</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 8px;"></div>
+
+      <div class="affirmation">
+        "You don't have to do it all. Just do what resets you."
+      </div>
+    </div>
+    <div class="page-footer"><span>Weekly Reset Planner</span></div>
+  </div>
+
+  <!-- ===================================================
+       PAGE 7: HABIT TRACKER
+       =================================================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2 class="page-title">Tiny Habits That Matter</h2>
+      <p class="page-subtitle">Pick five. Stay consistent. Watch yourself grow.</p>
+      <hr class="thin-divider">
+
+      <table class="habit-tracker-table">
+        <thead>
+          <tr>
+            <th>Habit</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+            <td><span class="habit-circle"></span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="height: 16px;"></div>
+
+      <div class="affirmation">
+        "Consistency beats perfection."
+      </div>
+    </div>
+    <div class="page-footer"><span>Weekly Reset Planner</span></div>
+  </div>
+
+  <!-- ===================================================
+       PAGE 8: BRAIN DETOX
+       =================================================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2 class="page-title">Brain Detox</h2>
+      <p class="page-subtitle">Get it out of your head and onto paper.</p>
+      <hr class="thin-divider">
+
+      <div class="brain-detox-grid">
+        <div class="brain-detox-quadrant">
+          <div class="pink-box-header">Stressing Me Out</div>
+          <div class="quad-subtitle">Write it down. Let it breathe.</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="brain-detox-quadrant">
+          <div class="pink-box-header">Letting Go Of</div>
+          <div class="quad-subtitle">Not my problem this week.</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="brain-detox-quadrant">
+          <div class="pink-box-header">Grateful For</div>
+          <div class="quad-subtitle">Even the small things count.</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="brain-detox-quadrant">
+          <div class="pink-box-header">Looking Forward To</div>
+          <div class="quad-subtitle">Something worth smiling about.</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer"><span>Weekly Reset Planner</span></div>
+  </div>
+
+  <!-- ===================================================
+       PAGE 9: WEEKLY REFLECTION
+       =================================================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2 class="page-title">Weekly Reflection</h2>
+      <p class="page-subtitle">Look back before you leap forward.</p>
+      <hr class="thin-divider">
+
+      <div class="reflection-grid">
+        <div class="reflection-quadrant">
+          <div class="pink-box-header">This Week's Wins</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="reflection-quadrant">
+          <div class="pink-box-header">Lessons Learned</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="reflection-quadrant">
+          <div class="pink-box-header">Needs Improvement</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+        <div class="reflection-quadrant">
+          <div class="pink-box-header">Next Week's Priorities</div>
+          <div class="writing-lines">
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+            <div class="writing-line-dotted"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer"><span>Weekly Reset Planner</span></div>
+  </div>
+
+  <!-- ===================================================
+       PAGE 10: NOTES
+       =================================================== -->
+  <div class="page notes-page">
+    <div class="page-content">
+      <h2 class="page-title">Notes</h2>
+      <p class="page-subtitle">For everything else on your mind.</p>
+      <hr class="thin-divider">
+
+      <div class="writing-lines" style="flex: 1;">
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+        <div class="writing-line-gray"></div>
+      </div>
+    </div>
+    <div class="page-footer"><span>Weekly Reset Planner</span></div>
+  </div>
+
+</body>
+</html>
